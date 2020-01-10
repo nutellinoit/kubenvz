@@ -17,14 +17,14 @@ def use(args):
     if not version:
         print("Please define version or add that to .kubenvz file.\
             \nYou don't need to mention version if you have .kubenvz file at current path. \
-            \nFor more informaion, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-file.\n")
+            \nFor more information, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-file.\n")
         sys.exit(1)
 
     available_versions = list_local(args)
     if version not in available_versions:
         print(program + " version '" + version + "' is not installed.\
             \nYou can check installed versions by running 'kubenvz kubectl/kustomize list local'.\
-            \nFor more informaion, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-kubectlkustomize-list-local.\n")
+            \nFor more information, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-kubectlkustomize-list-local.\n")
         sys.exit(1)
 
     dest_path = DOWNLOAD_PATH + program + "_" + version
