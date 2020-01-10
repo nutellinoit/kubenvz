@@ -1,0 +1,42 @@
+version: 2.1
+
+executors:
+  kubenvz_build_release:
+    docker:
+      - image: pjsonigra/centos7-git-ghr-python36
+    working_directory: ~/repo
+
+commands:
+  kubenvz_build_release:
+    steps:
+      - checkout
+      - run:
+          name: 'Install Packages'
+          command: |
+              pip3.6 install -r requirements.txt
+      - run:
+          name: 'Create Build'
+          command: |
+              make build
+              make package
+      - run:
+          name: 'Publish Build'
+          command: |
+              LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+              ghr $LATEST_TAG dist/kubenvz_linux_x64.tar.gz
+
+jobs:
+  kubenvz_build_release:
+    executor: kubenvz_build_release
+    steps:
+      - kubenvz_build_release
+
+workflows:
+  kubenvz_build_release:
+    jobs:
+      - kubenvz_build_release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
