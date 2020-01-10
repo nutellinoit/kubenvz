@@ -1,7 +1,7 @@
 [![Actions Status](https://github.com/nutellinoit/kubenvz/workflows/Build%20&%20Release/badge.svg)](https://github.com/nutellinoit/kubenvz/actions)
 # kubenvz
 
-kubectl & kustomize version control
+kubectl & kustomize version manager
 
 Inspired by terraenv https://github.com/aaratn/terraenv
 
