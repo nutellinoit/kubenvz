@@ -38,7 +38,7 @@ def list_remote(args):
         available_versions = ['']
 
         for version in parsed_json:
-            available_versions.append(version['name'].lstrip('v'))
+            available_versions.append(version['name'].lstrip('v').lstrip('kubernetes-'))
         available_versions.remove('')
         # available_versions.sort(key=StrictVersion)
 

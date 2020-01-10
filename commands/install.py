@@ -22,10 +22,9 @@ def download_program(args, program, version):
             \nYou can check right available versions by running 'kubenvz kubectl/kustomize list remote'.\
             \nFor more informaion, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-kubectlkustomize-list-remote.\n")
         sys.exit(1)
-
+#
     if program == "kubectl":
-        url = "https://github.com/kubernetes/kubectl/releases/download/v" + \
-              version + "/kustomize_" + operating_sys + "_amd64"
+        url = "https://storage.googleapis.com/kubernetes-release/release/v"+version+"/bin/"+operating_sys+"/amd64/kubectl"
 
     elif program == "kustomize":
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/v" + \
@@ -43,18 +42,6 @@ def download_program(args, program, version):
         dest_path = DOWNLOAD_PATH + program + "_" + version
 
         open(dest_path, 'wb').write(binary.content)
-
-        if program == "kubectl":
-
-            with ZipFile(dest_path, 'r') as zip:
-                zip.extract('kubectl', path=DOWNLOAD_PATH)
-
-            if os.path.exists(DOWNLOAD_PATH + '/' + program) and os.path.exists(dest_path):
-                os.remove(dest_path)
-                os.rename(DOWNLOAD_PATH + '/' + program, dest_path)
-
-            else:
-                raise Exception("Issue extracting kubectl !!")
 
         os.chmod(dest_path, 0o755)
     else:
