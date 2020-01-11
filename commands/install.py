@@ -33,7 +33,8 @@ def download_program(args, program, version):
     elif program == "kustomize" and "kustomize" not in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
             version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64"
-        alternative_url = url
+        alternative_url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
+                          version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64.tar.gz"
         alternative_url_binary = url
 
     elif program == "kustomize" and "kustomize" in version:
