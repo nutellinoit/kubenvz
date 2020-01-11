@@ -50,6 +50,10 @@ jobs:
     - name: Build App
       run: |
         make build
+    - name: Test App
+      run: |
+        make test-kubectl
+        make test-kustomize
     - name: Package App
       run: |
         PLATFORM=osx_x64 make package

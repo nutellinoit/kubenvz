@@ -10,9 +10,9 @@ package:
 	@cd dist && tar -czvf ./kubenvz_$(PLATFORM).tar.gz kubenvz
 
 test-kustomize:
-	rm -rf ~/.kubenvz
+	rm -rf ~/.kubenvz/kustomize*
 	dist/kubenvz kustomize list remote | xargs -n 1 dist/kubenvz kustomize install
 
 test-kubectl:
-	rm -rf ~/.kubenvz
+	rm -rf ~/.kubenvz/kubectl*
 	dist/kubenvz kubectl list remote | xargs -n 1 dist/kubenvz kubectl install

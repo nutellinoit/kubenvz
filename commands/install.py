@@ -26,7 +26,7 @@ def download_program(args, program, version):
         sys.exit(1)
 #
     if program == "kubectl":
-        url = "https://storage.googleapis.com/kubernetes-release/release/"+version+"/bin/"+operating_sys+"/amd64/kubectl"
+        url = "https://storage.googleapis.com/kubernetes-release/release/v"+version+"/bin/"+operating_sys+"/amd64/kubectl"
 
     elif program == "kustomize" and "kustomize" not in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \

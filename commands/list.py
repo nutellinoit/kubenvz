@@ -38,7 +38,8 @@ def list_remote(args):
         available_versions = ['']
 
         for version in parsed_json:
-            available_versions.append(version['name'].lstrip('kubernetes-'))
+            if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
+                available_versions.append(version['name'].lstrip('kubernetes-'))
         available_versions.remove('')
 
         if args.commands in validate_versions_commands:
@@ -56,7 +57,7 @@ def list_remote(args):
         available_versions = ['']
 
         for version in parsed_json:
-            if "v1.0.0" not in version['name'] and "v3.3.1" not in version['name'] and "v3.3.0" not in version['name'] and "kyaml" not in version['name'] and "pseudo" not in version['name'] and "api" not in version['name'] and "latest_kustomize" not in version['name'] and "pluginator" not in version['name'] and "cmd" not in version['name'] and "kstatus" not in version['name']:
+            if "v3.2.3" not in version['name'] and "v1.0.0" not in version['name'] and "v3.3.1" not in version['name'] and "v3.3.0" not in version['name'] and "kyaml" not in version['name'] and "pseudo" not in version['name'] and "api" not in version['name'] and "latest_kustomize" not in version['name'] and "pluginator" not in version['name'] and "cmd" not in version['name'] and "kstatus" not in version['name']:
                 available_versions.append(version['name'])
         available_versions.remove('')
 
