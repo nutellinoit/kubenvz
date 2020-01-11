@@ -29,7 +29,7 @@ $ brew upgrade kubenvz
 
 ## Usage
 
-### kubenvz <kubectl / kustomize > install [version]
+### kubenvz <kubectl / kustomize > install [remote_version]
 
 Install a specific version of kubectl/kustomize , list available remote versions with `kubenvz kustomize list remote`  :
 
@@ -42,6 +42,23 @@ Install a specific version of kubectl/kustomize , list available remote versions
 $ kubenvz kubectl install v1.16.0
 $ kubenvz kustomize install v1.0.10
 ```
+
+## kubenvz <kubectl / kustomize > list <remote / local>
+
+To list local installed version use:
+
+```bash
+kubenvz kustomize list local
+```
+
+## kubenvz <kubectl / kustomize> use [local_version]
+
+To use a local installed version:
+
+```bash
+kubenvz kustomize use 1.0.10
+```
+
 
 ## LICENSE
 
