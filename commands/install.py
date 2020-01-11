@@ -12,38 +12,41 @@ from .list import list_remote
 
 """ Download Required kubectl / kustomize Versions """
 
-def download_program(args, program, version):
 
+def download_program(args, program, version, fast):
     operating_sys = sys.platform
     # Upsert download path
     not os.path.exists(DOWNLOAD_PATH) and os.mkdir(DOWNLOAD_PATH)
 
-    available_versions = list_remote(args)
-    if version not in available_versions:
-        print("Version '" + version + "' is not right available " + program + " version.\
-            \nYou can check right available versions by running 'kubenvz kubectl/kustomize list remote'.\
-            \nFor more informaion, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-kubectlkustomize-list-remote.\n")
-        sys.exit(1)
-#
+    if not fast:
+        available_versions = list_remote(args)
+        if version not in available_versions:
+            print("Version '" + version + "' is not right available " + program + " version.\
+                \nYou can check right available versions by running 'kubenvz kubectl/kustomize list remote'.\n")
+            sys.exit(1)
+    #
     if program == "kubectl":
-        url = "https://storage.googleapis.com/kubernetes-release/release/v"+version+"/bin/"+operating_sys+"/amd64/kubectl"
+        url = "https://storage.googleapis.com/kubernetes-release/release/v" + version + "/bin/" + operating_sys + "/amd64/kubectl"
         alternative_url = url
         alternative_url_binary = url
 
     elif program == "kustomize" and "kustomize" not in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
-            version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64"
+              version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64"
         alternative_url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
                           version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64.tar.gz"
         alternative_url_binary = url
 
     elif program == "kustomize" and "kustomize" in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
-              version.lstrip("kustomize/") + "/kustomize_" + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
+              version.lstrip("kustomize/") + "/kustomize_" + version.lstrip(
+            "kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
         alternative_url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
-              version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
+                          version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip(
+            "kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
         alternative_url_binary = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
-              version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64"
+                                 version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip(
+            "kustomize/") + "_" + operating_sys + "_amd64"
 
     if not os.path.exists(DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")):
 
@@ -84,14 +87,16 @@ def download_program(args, program, version):
 
         os.chmod(dest_path, 0o755)
     else:
-        print (program, version, "already downloaded")
+        print(program, version, "already downloaded")
+
 
 """ Installs Required kubectl / kustomize Versions """
 
-def install(args):
 
+def install(args):
     program = args.program
     version = args.version
+    fast = args.f
 
     if not version and os.path.exists(VERSION_FILE):
         load_dotenv(dotenv_path=VERSION_FILE)
@@ -99,17 +104,16 @@ def install(args):
 
     if not version:
         print("Please define version or add that to .kubenvz file.\
-            \nYou don't need to mention version if you have .kubenvz file at current path. \
-            \nFor more information, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-file.\n")
+            \nYou don't need to mention version if you have .kubenvz file at current path. \n")
         sys.exit(1)
 
     dest_path = DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")
 
     if program == "kubectl":
-        download_program(args, program, version)
+        download_program(args, program, version, fast)
 
     elif program == "kustomize":
-        download_program(args, program, version)
+        download_program(args, program, version, fast)
 
     else:
         raise Exception(
@@ -122,9 +126,9 @@ def install(args):
         sys.exit(1)
 
     try:
-        os.remove("/usr/local/bin/" + program )
+        os.remove("/usr/local/bin/" + program)
 
     except FileNotFoundError:
         pass
 
-    os.symlink(dest_path, "/usr/local/bin/" + program )
+    os.symlink(dest_path, "/usr/local/bin/" + program)

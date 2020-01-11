@@ -6,6 +6,7 @@ import os
 
 validate_versions_commands = ['install', 'uninstall', 'use']
 
+
 def list_local(args):
     program = args.program
     dest_path = DOWNLOAD_PATH
@@ -22,7 +23,8 @@ def list_local(args):
         return available_versions
 
     for version in available_versions:
-        print (version)
+        print(version)
+
 
 def list_remote(args):
     program = args.program
@@ -38,7 +40,8 @@ def list_remote(args):
         available_versions = ['']
 
         for version in parsed_json:
-            if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
+            if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version[
+                'name'] and "alpha" not in version['name']:
                 available_versions.append(version['name'].lstrip('kubernetes-'))
         available_versions.remove('')
 
@@ -58,13 +61,15 @@ def list_remote(args):
 
         for version in parsed_json:
             try:
-                if "v3.3.0" not in version['name'] and "v3.3.1" not in version['name'] and "v1.0.0" not in version['name'] and "kyaml" not in version['name'] and "pseudo" not in version['name'] and "api" not in version['name'] and "latest_kustomize" not in version['name'] and "pluginator" not in version['name'] and "cmd" not in version['name'] and "kstatus" not in version['name']:
+                if "v3.3.0" not in version['name'] and "v3.3.1" not in version['name'] and "v1.0.0" not in version[
+                    'name'] and "kyaml" not in version['name'] and "pseudo" not in version['name'] and "api" not in \
+                        version['name'] and "latest_kustomize" not in version['name'] and "pluginator" not in \
+                        version['name'] and "cmd" not in version['name'] and "kstatus" not in version['name']:
                     available_versions.append(version['name'])
             except IndexError:
                 print('sorry, no index')
 
         available_versions.remove('')
-
 
         if args.commands in validate_versions_commands:
             return available_versions

@@ -3,17 +3,18 @@ import argparse
 from commands import list_local, list_remote, install, use, uninstall
 from sys import exit
 
+
 class Parser(argparse.ArgumentParser):
     def error(self, message):
         self.print_help()
         exit(1)
+
 
 parser = Parser(description='Manage kubectl and kustomize versions v0.1.0-rc9')
 parser.add_argument('program', choices=['kubectl', 'kustomize'], help='program')
 
 commands = parser.add_subparsers(title='commands', dest='commands')
 commands.required = True
-
 
 # list
 list_cmd_parser = commands.add_parser('list', help='List Versions')
@@ -30,6 +31,7 @@ list_remote_cmd.set_defaults(func=list_remote)
 # Install
 install_cmd_parser = commands.add_parser('install', help='Install specific version or version defined in .kubenvz file')
 install_cmd_parser.add_argument('version', type=str, help='Version to install', nargs="?", default="")
+install_cmd_parser.add_argument('-f', action='store_true')
 install_cmd_parser.set_defaults(func=install)
 
 # Uninstall
