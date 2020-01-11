@@ -24,7 +24,9 @@ def download_program(args, program, version, fast):
             print("Version '" + version + "' is not right available " + program + " version.\
                 \nYou can check right available versions by running 'kubenvz kubectl/kustomize list remote'.\n")
             sys.exit(1)
-    #
+    else:
+        print("Skipping remote check...")
+
     if program == "kubectl":
         url = "https://storage.googleapis.com/kubernetes-release/release/v" + version + "/bin/" + operating_sys + "/amd64/kubectl"
         alternative_url = url
