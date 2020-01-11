@@ -27,10 +27,14 @@ def download_program(args, program, version):
 #
     if program == "kubectl":
         url = "https://storage.googleapis.com/kubernetes-release/release/v"+version+"/bin/"+operating_sys+"/amd64/kubectl"
+        alternative_url = url
+        alternative_url_binary = url
 
     elif program == "kustomize" and "kustomize" not in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
             version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64"
+        alternative_url = url
+        alternative_url_binary = url
 
     elif program == "kustomize" and "kustomize" in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
