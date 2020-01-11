@@ -60,7 +60,8 @@ def download_program(args, program, version):
                 url = alternative_url_binary
                 binary = requests.get(alternative_url_binary)
                 if binary.status_code == 404:
-                    raise Exception("Invalid version, got 404 error !" + url)
+                    print("Error downloading", program, version, "from", url)
+                    raise Exception("Invalid version, got 404 error !")
 
         dest_path = DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")
 
