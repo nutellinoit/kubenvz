@@ -11,8 +11,8 @@ package:
 
 test-kustomize:
 	rm -rf ~/.kubenvz/kustomize*
-	dist/kubenvz kustomize list remote | xargs -n 1 dist/kubenvz kustomize install
+	dist/kubenvz kustomize list remote | xargs -n 1 -P 8 dist/kubenvz kustomize install
 
 test-kubectl:
 	rm -rf ~/.kubenvz/kubectl*
-	dist/kubenvz kubectl list remote | xargs -n 1 dist/kubenvz kubectl install
+	dist/kubenvz kubectl list remote | xargs -n 1 -P 8 dist/kubenvz kubectl install
