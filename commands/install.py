@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 import sys
 import platform
+import urllib
+import tarfile
 import requests
 from zipfile import ZipFile
 from config import DOWNLOAD_PATH, VERSION_FILE
@@ -24,13 +26,17 @@ def download_program(args, program, version):
         sys.exit(1)
 #
     if program == "kubectl":
-        url = "https://storage.googleapis.com/kubernetes-release/release/v"+version+"/bin/"+operating_sys+"/amd64/kubectl"
+        url = "https://storage.googleapis.com/kubernetes-release/release/"+version+"/bin/"+operating_sys+"/amd64/kubectl"
 
-    elif program == "kustomize":
-        url = "https://github.com/kubernetes-sigs/kustomize/releases/download/v" + \
-            version + "/kustomize_"+ version +"_" + operating_sys + "_amd64"
+    elif program == "kustomize" and "kustomize" not in version:
+        url = "https://github.com/kubernetes-sigs/kustomize/releases/download/" + \
+            version + "/kustomize_" + version.lstrip("v") + "_" + operating_sys + "_amd64"
 
-    if not os.path.exists(DOWNLOAD_PATH + program + "_" + version):
+    elif program == "kustomize" and "kustomize" in version:
+        url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
+              version.lstrip("kustomize/") + "/kustomize_" + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
+
+    if not os.path.exists(DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")):
 
         print("Downloading", program, version, "from", url)
 
@@ -39,9 +45,24 @@ def download_program(args, program, version):
         if binary.status_code == 404:
             raise Exception("Invalid version, got 404 error !")
 
-        dest_path = DOWNLOAD_PATH + program + "_" + version
+        dest_path = DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")
+
+        print("downloading to", dest_path)
 
         open(dest_path, 'wb').write(binary.content)
+
+        if program == "kustomize" and "kustomize" in version:
+
+            tar = tarfile.open(dest_path, "r:gz")
+            tar.extractall(path=DOWNLOAD_PATH + '/')
+            tar.close()
+
+            if os.path.exists(DOWNLOAD_PATH + '/' + program) and os.path.exists(dest_path):
+                os.remove(dest_path)
+                os.rename(DOWNLOAD_PATH + '/' + program, dest_path)
+
+            else:
+                raise Exception("Issue extracting kustomize !!")
 
         os.chmod(dest_path, 0o755)
     else:
@@ -61,10 +82,10 @@ def install(args):
     if not version:
         print("Please define version or add that to .kubenvz file.\
             \nYou don't need to mention version if you have .kubenvz file at current path. \
-            \nFor more informaion, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-file.\n")
+            \nFor more information, Please refer kubenvz document https://github.com/aaratn/kubenvz#kubenvz-file.\n")
         sys.exit(1)
 
-    dest_path = DOWNLOAD_PATH + program + "_" + version
+    dest_path = DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")
 
     if program == "kubectl":
         download_program(args, program, version)

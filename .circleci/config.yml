@@ -18,7 +18,15 @@ commands:
           name: 'Create Build'
           command: |
               make build
-              make package
+      - run:
+          name: 'Test build'
+          command: |
+            make test-kubectl
+            make test-kustomize
+      - run:
+          name: 'Create Package'
+          command: |
+            make package
       - run:
           name: 'Publish Build'
           command: |
