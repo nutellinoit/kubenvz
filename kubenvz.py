@@ -8,7 +8,7 @@ class Parser(argparse.ArgumentParser):
         self.print_help()
         exit(1)
 
-parser = Parser(description='Manage kubectl and kustomize versions v0.1.0-rc8')
+parser = Parser(description='Manage kubectl and kustomize versions v0.1.0-rc9')
 parser.add_argument('program', choices=['kubectl', 'kustomize'], help='program')
 
 commands = parser.add_subparsers(title='commands', dest='commands')
