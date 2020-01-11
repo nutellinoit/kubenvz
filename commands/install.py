@@ -35,6 +35,10 @@ def download_program(args, program, version):
     elif program == "kustomize" and "kustomize" in version:
         url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
               version.lstrip("kustomize/") + "/kustomize_" + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
+        alternative_url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
+              version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64.tar.gz"
+        alternative_url_binary = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F" + \
+              version.lstrip("kustomize/") + "/kustomize_kustomize." + version.lstrip("kustomize/") + "_" + operating_sys + "_amd64"
 
     if not os.path.exists(DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")):
 
@@ -43,15 +47,23 @@ def download_program(args, program, version):
         binary = requests.get(url)
 
         if binary.status_code == 404:
-            raise Exception("Invalid version, got 404 error !")
+            print("Retrying ", program, version, "from", alternative_url)
+            url = alternative_url
+            binary = requests.get(alternative_url)
+            if binary.status_code == 404:
+                print("Retrying ", program, version, "from", alternative_url_binary)
+                url = alternative_url_binary
+                binary = requests.get(alternative_url_binary)
+                if binary.status_code == 404:
+                    raise Exception("Invalid version, got 404 error !")
 
         dest_path = DOWNLOAD_PATH + program + "_" + version.lstrip("kustomize/").lstrip("v")
 
-        print("downloading to", dest_path)
+        print("Downloading to", dest_path)
 
         open(dest_path, 'wb').write(binary.content)
 
-        if program == "kustomize" and "kustomize" in version:
+        if "tar.gz" in url:
 
             tar = tarfile.open(dest_path, "r:gz")
             tar.extractall(path=DOWNLOAD_PATH + '/')
