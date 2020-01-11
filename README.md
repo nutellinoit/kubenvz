@@ -32,7 +32,7 @@ Install a specific version of kubectl/kustomize , list available remote versions
 
 - `kustomize/v.X.X.X` use exact version to install
 
-> kustomize uses a lot of versions, kubenvz filter all releases that are not cli executable
+> kustomize has lot of release, kubenvz filter all releases that are not cli executable
 
 
 ```console
