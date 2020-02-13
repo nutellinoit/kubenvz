@@ -40,7 +40,7 @@ Install a specific version of kubectl/kustomize , list available remote versions
 
 ```console
 $ kubenvz kubectl install v1.16.0
-$ kubenvz kustomize install v1.0.10
+$ kubenvz kustomize install 1.0.10
 ```
 
 ## kubenvz <kubectl / kustomize > list <remote / local>
