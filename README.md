@@ -64,7 +64,7 @@ kubenvz kustomize use 1.0.10
 
 ## LICENSE
 
-- [kubenvz](https://github.com/aaratn/kubenvz/blob/master/LICENSE)
+- [kubenvz](https://github.com/nutellinoit/kubenvz/blob/master/LICENSE)
 - [terraenv](https://github.com/aaratn/terraenv/blob/master/LICENSE)
 - [rbenv](https://github.com/rbenv/rbenv/blob/master/LICENSE)
 
