@@ -11,11 +11,11 @@ package:
 
 test-kustomize:
 	rm -rf ~/.kubenvz/kustomize*
-	dist/kubenvz kustomize list remote | sort | xargs -n 1 -P 8 dist/kubenvz kustomize install -f
+	dist/kubenvz kustomize list remote | sort | xargs -n 1 -P 1 dist/kubenvz kustomize install -f
 
 test-kubectl:
 	rm -rf ~/.kubenvz/kubectl*
-	dist/kubenvz kubectl list remote | sort | xargs -n 1 -P 8 dist/kubenvz kubectl install -f
+	dist/kubenvz kubectl list remote | sort | xargs -n 1 -P 1 dist/kubenvz kubectl install -f
 
 test-helm:
 	rm -rf ~/.kubenvz/helm*
