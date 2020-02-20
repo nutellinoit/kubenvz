@@ -13,7 +13,7 @@ def uninstall(args):
     available_versions = list_local(args)
     if version not in available_versions:
         print(program + " version '" + version + "' is not installed or version argument is blank.\
-            \nYou can check installed versions by running 'kubenvz kubectl/kustomize list local'.\n")
+            \nYou can check installed versions by running 'kubenvz kubectl/kustomize/helm list local'.\n")
         sys.exit(1)
 
     dest_path = DOWNLOAD_PATH + program + "_" + version

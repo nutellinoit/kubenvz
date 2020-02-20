@@ -10,7 +10,7 @@ from zipfile import ZipFile
 from config import DOWNLOAD_PATH, VERSION_FILE
 from .list import list_remote
 
-""" Download Required kubectl / kustomize Versions """
+""" Download Required kubectl / kustomize / helm Versions """
 
 
 def download_program(args, program, version, fast):
@@ -29,6 +29,12 @@ def download_program(args, program, version, fast):
 
     if program == "kubectl":
         url = "https://storage.googleapis.com/kubernetes-release/release/v" + version + "/bin/" + operating_sys + "/amd64/kubectl"
+        alternative_url = url
+        alternative_url_binary = url
+
+    elif program == "helm":
+        # https://get.helm.sh/helm-v3.1.0-darwin-amd64.tar.gz
+        url = "https://get.helm.sh/helm-v" + version.lstrip("v") + "-" + operating_sys + "-amd64.tar.gz"
         alternative_url = url
         alternative_url_binary = url
 
@@ -83,9 +89,11 @@ def download_program(args, program, version, fast):
             if os.path.exists(DOWNLOAD_PATH + '/' + program) and os.path.exists(dest_path):
                 os.remove(dest_path)
                 os.rename(DOWNLOAD_PATH + '/' + program, dest_path)
-
+            elif os.path.exists(DOWNLOAD_PATH + "/" + operating_sys + "-amd64/" + program) and os.path.exists(dest_path):
+                os.remove(dest_path)
+                os.rename(DOWNLOAD_PATH + "/" + operating_sys + "-amd64/" + program, dest_path)
             else:
-                raise Exception("Issue extracting kustomize !!")
+                raise Exception("Issue extracting !!")
 
         os.chmod(dest_path, 0o755)
     else:
@@ -117,9 +125,12 @@ def install(args):
     elif program == "kustomize":
         download_program(args, program, version, fast)
 
+    elif program == "helm":
+        download_program(args, program, version, fast)
+
     else:
         raise Exception(
-            'Invalid Arguement !! It should be either kubectl / kustomize')
+            'Invalid Arguement !! It should be either kubectl / kustomize / helm')
 
     if not os.access('/usr/local/bin', os.W_OK):
         print("Error: User doesn't have write permission of /usr/local/bin directory.\

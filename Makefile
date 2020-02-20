@@ -1,6 +1,6 @@
 PLATFORM?=linux_x64
 
-.PHONY: build package test-kubectl test-kustomize
+.PHONY: build package test-kubectl test-kustomize test-helm
 
 build:
 	@PYTHONOPTIMIZE=1 pyinstaller kubenvz.py --onefile --clean --osx-bundle-identifier com.nutellinoit.os.kubenvz --nowindowed
@@ -16,3 +16,7 @@ test-kustomize:
 test-kubectl:
 	rm -rf ~/.kubenvz/kubectl*
 	dist/kubenvz kubectl list remote | sort | xargs -n 1 -P 8 dist/kubenvz kubectl install -f
+
+test-helm:
+	rm -rf ~/.kubenvz/helm*
+	dist/kubenvz helm list remote | sort | xargs -n 1 -P 8 dist/kubenvz helm install -f

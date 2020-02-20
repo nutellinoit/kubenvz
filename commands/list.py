@@ -11,7 +11,7 @@ def list_local(args):
     program = args.program
     dest_path = DOWNLOAD_PATH
 
-    """ lists installed kubectl/kustomize versions """
+    """ lists installed kubectl/kustomize/helm versions """
 
     available_versions = []
     for f_name in os.listdir(DOWNLOAD_PATH):
@@ -29,7 +29,7 @@ def list_local(args):
 def list_remote(args):
     program = args.program
 
-    """ lists kubectl/kustomize versions """
+    """ lists kubectl/kustomize/helm versions """
 
     if program == "kubectl":
         session = HTMLSession()
@@ -77,6 +77,29 @@ def list_remote(args):
         for version in available_versions:
             print(version)
 
+    elif program == "helm":
+        session = HTMLSession()
+        helm_url = session.get(
+            "https://api.github.com/repos/helm/helm/tags?per_page=1000")
+        data = helm_url.html.full_text
+        parsed_json = (json.loads(data))
+        available_versions = ['']
+
+        for version in parsed_json:
+            try:
+                if "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
+                    available_versions.append(version['name'])
+            except IndexError:
+                print('sorry, no index')
+
+        available_versions.remove('')
+
+        if args.commands in validate_versions_commands:
+            return available_versions
+
+        for version in available_versions:
+            print(version)
+
     else:
         raise Exception(
-            'Invalid Arguement !! It should be either kubectl / kustomize')
+            'Invalid Arguement !! It should be either kubectl / helm')
