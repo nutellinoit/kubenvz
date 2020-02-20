@@ -124,4 +124,4 @@ def list_remote(args):
             print(version)
     else:
         raise Exception(
-            'Invalid Arguement !! It should be either kubectl / kustomize / helm / helmfile')
+            'Invalid Argument !! It should be either kubectl / kustomize / helm / helmfile')
