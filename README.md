@@ -4,7 +4,7 @@
 
 # Kubenvz
 
-kubectl & kustomize version manager
+kubectl & kustomize & helm & helmfile version manager
 
 Inspired by terraenv https://github.com/aaratn/terraenv
 
@@ -29,9 +29,9 @@ $ brew upgrade kubenvz
 
 ## Usage
 
-### kubenvz <kubectl / kustomize > install [remote_version]
+### kubenvz <kubectl / kustomize / helm / helmfile> install [remote_version]
 
-Install a specific version of kubectl/kustomize , list available remote versions with `kubenvz kustomize list remote`  :
+Install a specific version of kubectl/kustomize/helm/helmfile , list available remote versions with `kubenvz kustomize list remote`  :
 
 - `kustomize/v.X.X.X` use exact version to install
 
@@ -41,9 +41,11 @@ Install a specific version of kubectl/kustomize , list available remote versions
 ```console
 $ kubenvz kubectl install v1.16.0
 $ kubenvz kustomize install 1.0.10
+$ kubenvz helm install v3.1.0
+$ kubenvz helmfile install v0.100.1
 ```
 
-## kubenvz <kubectl / kustomize > list <remote / local>
+## kubenvz <kubectl / kustomize / helm / helmfile> list <remote / local>
 
 To list local installed version use:
 
@@ -51,7 +53,7 @@ To list local installed version use:
 kubenvz kustomize list local
 ```
 
-## kubenvz <kubectl / kustomize> use [local_version]
+## kubenvz <kubectl / kustomize / helm / helmfile> use [local_version]
 
 To use a local installed version:
 

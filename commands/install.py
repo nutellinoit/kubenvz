@@ -10,7 +10,7 @@ from zipfile import ZipFile
 from config import DOWNLOAD_PATH, VERSION_FILE
 from .list import list_remote
 
-""" Download Required kubectl / kustomize / helm Versions """
+""" Download Required kubectl / kustomize / helm / helmfile Versions """
 
 
 def download_program(args, program, version, fast):
@@ -35,6 +35,12 @@ def download_program(args, program, version, fast):
     elif program == "helm":
         # https://get.helm.sh/helm-v3.1.0-darwin-amd64.tar.gz
         url = "https://get.helm.sh/helm-v" + version.lstrip("v") + "-" + operating_sys + "-amd64.tar.gz"
+        alternative_url = url
+        alternative_url_binary = url
+
+    elif program == "helmfile":
+        # https://github.com/roboll/helmfile/releases/download/v0.100.1/helmfile_darwin_amd64
+        url = "https://github.com/roboll/helmfile/releases/download/v" + version.lstrip("v") + "/helmfile_" + operating_sys + "_amd64"
         alternative_url = url
         alternative_url_binary = url
 
@@ -100,7 +106,7 @@ def download_program(args, program, version, fast):
         print(program, version, "already downloaded")
 
 
-""" Installs Required kubectl / kustomize Versions """
+""" Installs Required kubectl / kustomize / helm / helmfile Versions """
 
 
 def install(args):
@@ -128,9 +134,12 @@ def install(args):
     elif program == "helm":
         download_program(args, program, version, fast)
 
+    elif program == "helmfile":
+        download_program(args, program, version, fast)
+
     else:
         raise Exception(
-            'Invalid Arguement !! It should be either kubectl / kustomize / helm')
+            'Invalid Arguement !! It should be either kubectl / kustomize / helm / helmfile')
 
     if not os.access('/usr/local/bin', os.W_OK):
         print("Error: User doesn't have write permission of /usr/local/bin directory.\

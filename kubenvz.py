@@ -11,7 +11,7 @@ class Parser(argparse.ArgumentParser):
 
 
 parser = Parser(description='Manage kubectl, kustomize and helm versions v0.1.0')
-parser.add_argument('program', choices=['kubectl', 'kustomize','helm'], help='program')
+parser.add_argument('program', choices=['kubectl', 'kustomize','helm','helmfile'], help='program')
 
 commands = parser.add_subparsers(title='commands', dest='commands')
 commands.required = True

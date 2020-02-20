@@ -20,3 +20,7 @@ test-kubectl:
 test-helm:
 	rm -rf ~/.kubenvz/helm*
 	dist/kubenvz helm list remote | sort | xargs -n 1 -P 1 dist/kubenvz helm install -f
+
+test-helmfile:
+	rm -rf ~/.kubenvz/helmfile*
+	dist/kubenvz helmfile list remote | sort | xargs -n 1 -P 1 dist/kubenvz helmfile install -f
