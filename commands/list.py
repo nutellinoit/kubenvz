@@ -114,7 +114,7 @@ def list_remote(args):
 
         for version in parsed_json:
             try:
-                if "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
+                if "0.89.1" not in version['name'] and "0.81.2" not in version['name'] and "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
                     available_versions.append(version['name'])
             except IndexError:
                 raise Exception("Github rate limiting!!")
