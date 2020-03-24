@@ -138,3 +138,8 @@ virtualenv/
 
 
 README_full.md
+
+
+/lib
+/bin
+pyvenv.cfg
