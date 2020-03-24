@@ -61,6 +61,22 @@ To use a local installed version:
 kubenvz kustomize use 1.0.10
 ```
 
+## Fast switcher
+
+To have a faster switch between version, install the kbnvz tool:
+
+```bash
+wget https://github.com/nutellinoit/kubenvz/releases/download/v0.2.3/kbnvz_v0.2.3 -O /usr/local/bin/kbnvz
+chmod +x /usr/local/bin/kbnvz
+```
+
+### kbnvz <kubectl / kustomize / helm / helmfile> [local_version]
+
+To use the fast switcher script:
+
+```bash
+kbnvz kustomize 1.0.10
+```
 
 ## Develop
 
