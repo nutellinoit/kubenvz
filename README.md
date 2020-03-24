@@ -39,7 +39,7 @@ Install a specific version of kubectl/kustomize/helm/helmfile , list available r
 
 
 ```console
-$ kubenvz kubectl install v1.16.0
+$ kubenvz kubectl install 1.16.0
 $ kubenvz kustomize install 1.0.10
 $ kubenvz helm install v3.1.0
 $ kubenvz helmfile install v0.100.1
