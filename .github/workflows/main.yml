@@ -1,103 +1,10 @@
-name: Build & Release
+name: Release
 
 on:
   push:
     tags:
       - 'v*'
 jobs:
-
-  test_helm:
-    runs-on: macOS-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Build App
-        run: |
-          make build
-      - name: Test App
-        run: |
-          make test-helm
-  test_kustomize:
-    needs: test_helm
-    runs-on: macOS-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Build App
-        run: |
-          make build
-      - name: Test App
-        run: |
-          make test-kustomize
-
-  test_kubectl:
-    needs: test_kustomize
-    runs-on: macOS-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Build App
-        run: |
-          make build
-      - name: Test App
-        run: |
-          make test-kubectl
-  test_helmfile:
-    needs: test_kubectl
-    runs-on: macOS-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Build App
-        run: |
-          make build
-      - name: Test App
-        run: |
-          make test-helmfile
 
   create_release:
     needs: test_kubectl
@@ -170,3 +77,35 @@ jobs:
         asset_path: dist/kubenvz_osx_x64.tar.gz
         asset_name: kubenvz_osx_x64_${{ steps.get_version.outputs.VERSION }}.tar.gz
         asset_content_type: application/octet-stream
+
+  upload_kbnvz:
+    needs: build_release_osx
+    runs-on: macOS-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Download Upload URL
+        uses: actions/download-artifact@v1
+        with:
+          name: uploadurl
+      - name: Extract Upload URL
+        shell: bash
+        run: |
+          echo "##[set-output name=upload_url;] $(cat uploadurl/upload-url.txt)"
+        id: extract_upload_url
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Upload Release Asset - OSx
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.extract_upload_url.outputs.upload_url }}
+          asset_path: switchers/kbnvz.sh
+          asset_name: kbnvz_${{ steps.get_version.outputs.VERSION }}
+          asset_content_type: application/octet-stream
