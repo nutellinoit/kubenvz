@@ -62,6 +62,27 @@ kubenvz kustomize use 1.0.10
 ```
 
 
+## Develop
+
+Create a virtualenv:
+
+```bash
+python3 -m venv .
+```
+
+Start virtualenv:
+
+```bash
+source bin/activate
+```
+
+Install requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+
 ## LICENSE
 
 - [kubenvz](https://github.com/nutellinoit/kubenvz/blob/master/LICENSE)
