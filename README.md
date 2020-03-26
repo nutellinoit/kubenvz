@@ -26,6 +26,16 @@ via Homebrew on OSx
 $ brew upgrade kubenvz
 ```
 
+### On Linux
+
+Download and install with:
+
+```bash
+wget https://github.com/nutellinoit/kubenvz/releases/download/v0.3.0/kubenvz_linux_x64_v0.3.0.tar.gz -O kubenvz.tar.gz
+tar -zxvf kubenvz.tar.gz
+sudo mv kubenvz /usr/local/bin/
+```
+
 
 ## Usage
 
@@ -63,11 +73,11 @@ kubenvz kustomize use 1.0.10
 
 ## Fast switcher
 
-To have a faster switch between version, install the kbnvz tool:
+To have a faster switch between version, install the kbnvz tool (working on macos and linux):
 
 ```bash
-wget https://github.com/nutellinoit/kubenvz/releases/download/v0.2.3/kbnvz_v0.2.3 -O /usr/local/bin/kbnvz
-chmod +x /usr/local/bin/kbnvz
+sudo wget https://github.com/nutellinoit/kubenvz/releases/download/v0.3.0/kbnvz_v0.3.0 -O /usr/local/bin/kbnvz
+sudo chmod +x /usr/local/bin/kbnvz
 ```
 
 ### kbnvz <kubectl / kustomize / helm / helmfile> [local_version]
