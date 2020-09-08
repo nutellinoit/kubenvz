@@ -32,21 +32,24 @@ def list_remote(args):
     """ lists kubectl/kustomize/helm/helmfile versions """
 
     if program == "kubectl":
-        session = HTMLSession()
-        kustomize_url = session.get(
-            "https://api.github.com/repos/kubernetes/kubectl/tags?per_page=1000")
-        data = kustomize_url.html.full_text
-        parsed_json = (json.loads(data))
+        page = 1
+        elements = -1
         available_versions = ['']
-
-        for version in parsed_json:
-            try:
-                if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version[
-                    'name'] and "alpha" not in version['name']:
-                    available_versions.append(version['name'].lstrip('kubernetes-'))
-            except IndexError:
-                raise Exception("Github rate limiting!!")
-
+        while elements != 0:
+            session = HTMLSession()
+            kustomize_url = session.get(
+                f"https://api.github.com/repos/kubernetes/kubectl/tags?per_page=100&page={page}")
+            data = kustomize_url.html.full_text
+            parsed_json = (json.loads(data))
+            elements = len(parsed_json)
+            for version in parsed_json:
+                try:
+                    if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version[
+                        'name'] and "alpha" not in version['name']:
+                        available_versions.append(version['name'].lstrip('kubernetes-'))
+                except IndexError:
+                    raise Exception("Github rate limiting!!")
+            page += 1
         available_versions.remove('')
 
         if args.commands in validate_versions_commands:
