@@ -31,7 +31,7 @@ $ brew upgrade kubenvz
 Download and install with:
 
 ```bash
-wget https://github.com/nutellinoit/kubenvz/releases/download/v0.3.0/kubenvz_linux_x64_v0.3.0.tar.gz -O kubenvz.tar.gz
+wget https://github.com/nutellinoit/kubenvz/releases/download/v0.4.0/kubenvz_linux_x64_v0.4.0.tar.gz -O kubenvz.tar.gz
 tar -zxvf kubenvz.tar.gz
 sudo mv kubenvz /usr/local/bin/
 ```
@@ -76,7 +76,7 @@ kubenvz kustomize use 1.0.10
 To have a faster switch between version, install the kbnvz tool (working on macos and linux):
 
 ```bash
-sudo wget https://github.com/nutellinoit/kubenvz/releases/download/v0.3.0/kbnvz_v0.3.0 -O /usr/local/bin/kbnvz
+sudo wget https://github.com/nutellinoit/kubenvz/releases/download/v0.4.0/kbnvz_v0.4.0 -O /usr/local/bin/kbnvz
 sudo chmod +x /usr/local/bin/kbnvz
 ```
 
