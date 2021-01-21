@@ -2,6 +2,9 @@ PLATFORM?=linux_x64
 
 .PHONY: build package test-kubectl test-kustomize test-helm test-all
 
+deps:
+	pip install -r requirements.txt
+
 build:
 	@PYTHONOPTIMIZE=1 pyinstaller kubenvz.py --onefile --clean --osx-bundle-identifier com.nutellinoit.os.kubenvz --nowindowed
 	@chmod +x dist/kubenvz

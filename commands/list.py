@@ -44,7 +44,7 @@ def list_remote(args):
             elements = len(parsed_json)
             for version in parsed_json:
                 try:
-                    if not version['name'].startswith('v0') and "rc" not in version['name'] and "beta" not in version[
+                    if "v0" not in version['name'] and "rc" not in version['name'] and "beta" not in version[
                         'name'] and "alpha" not in version['name']:
                         available_versions.append(version['name'].lstrip('kubernetes-'))
                 except IndexError:
@@ -117,7 +117,8 @@ def list_remote(args):
 
         for version in parsed_json:
             try:
-                if "0.89.1" not in version['name'] and "0.81.2" not in version['name'] and "rc" not in version['name'] and "beta" not in version['name'] and "alpha" not in version['name']:
+                if "0.89.1" not in version['name'] and "0.81.2" not in version['name'] and "rc" not in version[
+                    'name'] and "beta" not in version['name'] and "alpha" not in version['name']:
                     available_versions.append(version['name'])
             except IndexError:
                 raise Exception("Github rate limiting!!")
