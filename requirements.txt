@@ -7,11 +7,11 @@ chardet==3.0.4
 cssselect==1.1.0
 fake-useragent==0.1.11
 idna==2.8
-lxml==4.4.1
+lxml==4.6.2
 macholib==1.11
 parse==1.12.1
 pyee==6.0.0
-PyInstaller==3.6
+PyInstaller>=3.6
 pyppeteer==0.0.25
 pyquery==1.4.1
 python-dotenv==0.10.3
@@ -24,3 +24,6 @@ urllib3==1.25.7
 virtualenv==16.1.0
 w3lib==1.21.0
 websockets==8.1
+twine==3.1.1
+setuptools<45.0.0
+wheel==0.34.2
