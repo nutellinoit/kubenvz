@@ -1,3 +1,5 @@
+# This project has been deprecated
+
 [![Actions Status](https://github.com/nutellinoit/kubenvz/workflows/Test/badge.svg)](https://github.com/nutellinoit/kubenvz/actions)
 
 [![Actions Status](https://github.com/nutellinoit/kubenvz/workflows/Build%20&%20Release/badge.svg)](https://github.com/nutellinoit/kubenvz/actions)
